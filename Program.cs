@@ -1,11 +1,11 @@
-using Microsoft.OpenApi.Models; // Importação necessária para Swagger
+using APICatalogo.Context;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models; 
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Adiciona suporte a controllers
-builder.Services.AddControllers();
 
-// Adiciona Swagger (documentação da API)
+builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c =>
 {
@@ -16,9 +16,13 @@ builder.Services.AddSwaggerGen(c =>
     });
 });
 
+string? mySqlConnection = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<AppDbContext>(options => options.UseMySql(mySqlConnection,
+ServerVersion.AutoDetect(mySqlConnection)));
+
 var app = builder.Build();
 
-// Ativa o Swagger somente em desenvolvimento
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -32,7 +36,6 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
-// Mapeia os controllers
 app.MapControllers();
 
 app.Run();
