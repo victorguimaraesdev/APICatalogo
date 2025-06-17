@@ -22,7 +22,7 @@ namespace APICatalogo.Models
         public string? ImagemUrl { get; set; }
         public float Estoque { get; set; }
         public DateTime DataCadastro { get; set; }
-        public int CategoriaId { get; set; }
-        public Categoria? Categoria { get; set; }
+        public int CategoriaId { get; set; } // chave da categoria
+        public Categoria? Categoria { get; set; } //Informações da categoria
     }
 }
