@@ -17,25 +17,13 @@ namespace APICatalogo.Controllers
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get()
         {
-            var produtos = _context.Produtos.ToList();
-            if (!produtos.Any())
-            {
-                return NotFound("Produtos não encontrados");
-            }
-
-            return Ok(produtos);
+            return _context.Produtos.ToList();
         }
         [HttpGet("{id:int}", Name = "ObterProduto")]
         public ActionResult<Produto> Get(int id)
         {
             var produto = _context.Produtos.FirstOrDefault(p => p.ProdutoId == id);
-
-            if (produto is null)
-            {
-                return NotFound("Produto não encontrado");
-            }
-
-            return Ok(produto);
+            return produto != null ? Ok(produto) : NotFound("Produto não encontrado");
         }
         [HttpPost]
         public ActionResult Post([FromBody] Produto produto)
