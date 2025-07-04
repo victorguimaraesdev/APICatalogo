@@ -6,13 +6,18 @@ using Microsoft.EntityFrameworkCore;
 namespace APICatalogo.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("api/[controller]")]
     public class ProdutosController : ControllerBase
     {
         private readonly AppDbContext _context;
         public ProdutosController(AppDbContext context)
         {
             _context = context;
+        }
+        [HttpGet("/primeiro")]
+        public ActionResult<Produto> GetPrimeiro()
+        {
+            return _context.Produtos.FirstOrDefault();
         }
         [HttpGet]
         public ActionResult<IEnumerable<Produto>> Get()
